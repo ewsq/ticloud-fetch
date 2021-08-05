@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xybc.mapper.clickhouse.ClickhouseMapper">
+    <insert id="insertDbFlow" parameterType="com.xybc.entity.DbFlow">
+        INSERT INTO `sx_tsgz_ck`.`db_flow` (`uid`, `ts`, `sip`, `sp`, `dip`, `dp`, `cmd`)
+        VALUES
+        <foreach collection="dbFlowList" item="dbFlow" index="index" separator=",">
+            (#{dbFlow.uid}, #{dbFlow.ts}, #{dbFlow.sip}, #{dbFlow.sp}, #{dbFlow.dip}, #{dbFlow.dp}, #{dbFlow.cmd})
+        </foreach>
+    </insert>
+    <insert id="insertHttpFlow" parameterType="java.util.List">
+        INSERT INTO `sx_tsgz_ck`.`http_flow` (`uid`, `method`, `sip`, `url`, `dip`, `ts`, `total_len`, `sp`, `dp`)
+        VALUES 
+        <foreach collection="httpFlowList" item="httpFlow" index="index" separator=",">
+            (#{httpFlow.uid}, #{httpFlow.method}, #{httpFlow.sip}, #{httpFlow.url}, #{httpFlow.dip}, #{httpFlow.ts}, #{httpFlow.total_len}, #{httpFlow.sp}, #{httpFlow.dp})
+        </foreach>
+    </insert>
+    <insert id="insertSensorFlow" parameterType="java.util.List">
+        INSERT INTO `sx_tsgz_ck`.`sensor_flow` (`uid`, `sensor_ip`, `sample_time`, `resp_bytes`, `sip`, `stat_start`, `resp_pkts`, `dip`, `proto`, `orig_bytes`, `stat_end`, `orig_pkts`, `probe_ip`, `sp`, `dp`)
+        VALUES
+        <foreach collection="sensorFlowList" item="sensorFlow" index="index" separator=",">
+            (#{sensorFlow.uid}, #{sensorFlow.sensor_ip}, #{sensorFlow.sample_time}, #{sensorFlow.resp_bytes}, #{sensorFlow.sip}, #{sensorFlow.stat_start}, #{sensorFlow.resp_pkts}, #{sensorFlow.dip}, #{sensorFlow.proto}, #{sensorFlow.orig_bytes}, #{sensorFlow.stat_end}, #{sensorFlow.orig_pkts}, #{sensorFlow.probe_ip}, #{sensorFlow.sp}, #{sensorFlow.dp})
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xybc.mapper.mysql.MysqlMapper">
+    <insert id="insertSwvWebFlow" parameterType="com.xybc.entity.SwvWebFlow">
+        insert into tc_alarm (id, alarm_id, src_ip, src_port, dst_ip, dst_port,
+                              collect_time, create_time, update_time, start_time, in_time,
+                              equ_ip, collect_ip, swv_type, swv_url,
+                              data_source, analysis_category, analysis_type, serverity, event_count)
+        values
+        <foreach collection="swvWebFlowList" item="swvWebFlow" index="index" separator=",">
+            (#{swvWebFlow.id},#{swvWebFlow.uid},#{swvWebFlow.sip},#{swvWebFlow.sp},#{swvWebFlow.dip},#{swvWebFlow.dp},
+            FROM_UNIXTIME(#{swvWebFlow.sample_time}/1000,'%Y-%m-%d %H:%i:%s'),now(),now(),FROM_UNIXTIME(#{swvWebFlow.ts}/1000,'%Y-%m-%d %H:%i:%s'),now(),
+            #{swvWebFlow.probe_ip},#{swvWebFlow.sensor_ip},#{swvWebFlow.mala_url_type},#{swvWebFlow.url},
+            2, '攻击检测', '恶意网址访问', '中风险', 1)
+        </foreach>
+    </insert>
+    <insert id="insertSwvProgramFlow" parameterType="com.xybc.entity.SwvProgramFlow">
+        insert into tc_alarm (id, alarm_id, src_ip, src_port, dst_ip, dst_port,
+                              collect_time, create_time, update_time, start_time, in_time,
+                              equ_ip, collect_ip, swv_type, swv_virusname, swv_md5,
+                              data_source, analysis_category, analysis_type, serverity, event_count)
+        values
+        <foreach collection="swvProgramFlowList" item="swvProgramFlow" index="index" separator=",">
+            (#{swvProgramFlow.id},#{swvProgramFlow.uid},#{swvProgramFlow.sip},#{swvProgramFlow.sp},#{swvProgramFlow.dip},#{swvProgramFlow.dp},
+            FROM_UNIXTIME(#{swvProgramFlow.sample_time}/1000,'%Y-%m-%d %H:%i:%s'),now(),now(),FROM_UNIXTIME(#{swvProgramFlow.ts}/1000,'%Y-%m-%d %H:%i:%s'),now(),
+            #{swvProgramFlow.probe_ip},#{swvProgramFlow.sensor_ip},#{swvProgramFlow.malware_type},#{swvProgramFlow.virusname},#{swvProgramFlow.md5},
+            2, '攻击检测', '恶意程序攻击', '中风险', 1)
+        </foreach>
+    </insert>
+</mapper>
